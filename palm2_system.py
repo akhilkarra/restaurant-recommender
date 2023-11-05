@@ -47,8 +47,7 @@ __status__ = "Prototype"
 # PaLM 2 Hyperparameters
 DEFAULTS = {
   'model': 'models/chat-bison-001',
-  'temperature': 0.25,
-  'candidate_count': 2,
+  'temperature': 0.15,
   'top_k': 10,
   'top_p': 1,
 }
