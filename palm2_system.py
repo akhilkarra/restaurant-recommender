@@ -32,6 +32,7 @@ The way to use this API is to do the following:
 """
 
 # Insert modules here
+import os
 import geocoder
 import google.generativeai as palm
 import requests
@@ -45,10 +46,11 @@ __status__ = "Prototype"
 
 # PaLM 2 Hyperparameters
 DEFAULTS = {
-    'model': 'models/chat-bison-001',
-    'temperature': 0.15,
-    'top_k': 5,
-    'top_p': 1,
+  'model': 'models/chat-bison-001',
+  'temperature': 0.25,
+  'candidate_count': 2,
+  'top_k': 10,
+  'top_p': 1,
 }
 MESSAGES = []
 CONTEXT = """I want to order some food for delivery or pickup but I don't know
@@ -69,7 +71,7 @@ restaurant recommendations back.
 Important note: DO NOT GIVE ME ANY RESTAURANT RECOMMENDATIONS UNTIL YOU REACH
 STEP 4.
 
-Stay in character for every RESPONSE you give me. Keep your RESPONSEs short.
+Stay in character for every RESPONSE you give me. Keep your RESPONSES short.
 Ask one and only one question per RESPONSE. Feel free to ask me questions, too.
 """
 EXAMPLES = [
@@ -94,42 +96,35 @@ def current_location() -> tuple[float, float]:
     :returns: A (latitude, longitude) tuple with the user's current location
     """
     geoloc = geocoder.ip("me")
+    print(f"Geocoder returned location {geoloc.latlng}")
     return geoloc.latlng
 
 
 # Get nearby restaurants using Google Maps Places API
 @staticmethod
-def nearby_restaurants(loc: tuple[float, float]) -> str:
+def nearby_restaurants(loc: list[float, float]) -> str:
     """Given the location of the user, provide the nearby restaurants in a JSON
     format.
     """
     # Get current locaiton from user
     lat, long = loc
+    print(f"Location latitude = {lat}")
+    print(f"Location longitude = {long}")
 
     # Send a POST Request to the Google Maps Places API
     headers = {
         "Content-Type": "application/json",
-        "X-Goog-API-Key": MAPS_API_KEY,
-        "X-Goog-FieldMask": "places.displayName"
+        "X-Goog-API-Key": os.getenv("MAPS_API_KEY"),
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.businessStatus,places.primaryTypeDisplayName,places.priceLevel,places.rating,places.servesBeer,places.servesBreakfast,places.servesBrunch,places.servesCocktails,places.servesCoffee,places.servesDinner,places.servesLunch,places.servesVegetarianFood,places.servesWine,places.takeout,places.curbsidePickup,places.delivery"
     }
-    data = {
-        "includedTypes": ["restaurant"],
-        "maxResultCount": 20,
-        "locationRestriction": {
-            "circle": {
-                "center": {
-                    "latitude": lat,
-                    "longitude": long
-                },
-                "radius": 100.0
-            }
-        }
-    }
+    data = """{"includedTypes": ["restaurant"], "maxResultCount": 20, "locationRestriction": {"circle": {"center": {"latitude": """ + str(lat) + """, "longitude": """ + str(long) + """}, "radius": 50000.0}}}"""
     url = "https://places.googleapis.com/v1/places:searchNearby"
 
     maps_places_request = requests.post(
         url, headers=headers, data=data, timeout=50
     )
+
+    print(f"Google maps returned the following JSON\n {maps_places_request.text}")
 
     return maps_places_request.text
 
@@ -138,7 +133,7 @@ def nearby_restaurants(loc: tuple[float, float]) -> str:
 def setup():
     """Setup all the necessary APIs for the system to work"""
     # Setup PaLM 2
-    palm.configure(api_key=PALM_2_API_KEY)
+    palm.configure(api_key=os.getenv("PALM_2_API_KEY"))
 
     # Add location and nearby restaurants to the CONTEXT
     loc = current_location()
