@@ -47,10 +47,10 @@ __status__ = "Prototype"
 # PaLM 2 Hyperparameters
 DEFAULTS = {
   'model': 'models/chat-bison-001',
-  'temperature': 0.4,
-  'candidate_count': 3,
-  'top_k': 40,
-  'top_p': 0.95,
+  'temperature': 0.15,
+  'candidate_count': 2,
+  'top_k': 10,
+  'top_p': 1,
 }
 MESSAGES = []
 CONTEXT = """I want to order some food for delivery or pickup but I don't know
@@ -74,7 +74,16 @@ STEP 4.
 Stay in character for every RESPONSE you give me. Keep your RESPONSES short.
 Ask one and only one question per RESPONSE. Feel free to ask me questions, too.
 """
-EXAMPLES = []
+EXAMPLES = [
+  [
+    "Hi",
+    "Hello! How can I help you today?"
+  ],
+  [
+    "I would like something to order in.",
+    "Sure! I can help you with that. What kind of food would you like?"
+  ]
+]
 
 
 # Get current location of the user
