@@ -87,7 +87,6 @@ EXAMPLES = [
 
 
 # Get current location of the user
-@staticmethod
 def current_location() -> tuple[float, float]:
     """Using the Geocode Python library, get the current location of the user.
 
@@ -101,7 +100,6 @@ def current_location() -> tuple[float, float]:
 
 
 # Get nearby restaurants using Google Maps Places API
-@staticmethod
 def nearby_restaurants(loc: list[float, float]) -> str:
     """Given the location of the user, provide the nearby restaurants in a JSON
     format.
