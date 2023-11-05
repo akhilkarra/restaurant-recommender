@@ -100,7 +100,7 @@ def nearby_restaurants(loc: list[float, float]) -> str:
     headers = {
         "Content-Type": "application/json",
         "X-Goog-API-Key": os.getenv("MAPS_API_KEY"),
-        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.businessStatus,places.primaryTypeDisplayName,places.priceLevel,places.rating,places.servesBeer,places.servesBreakfast,places.servesBrunch,places.servesCocktails,places.servesCoffee,places.servesDinner,places.servesLunch,places.servesVegetarianFood,places.servesWine,places.takeout,places.curbsidePickup,places.delivery"
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.primaryTypeDisplayName,places.priceLevel,places.rating,places.servesBeer,places.servesBreakfast,places.servesBrunch,places.servesCocktails,places.servesCoffee,places.servesDinner,places.servesLunch,places.servesVegetarianFood,places.servesWine,places.takeout,places.curbsidePickup,places.delivery"
     }
     data = """{"includedTypes": ["restaurant"], "maxResultCount": 20, "locationRestriction": {"circle": {"center": {"latitude": """ + str(lat) + """, "longitude": """ + str(long) + """}, "radius": 50000.0}}}"""
     url = "https://places.googleapis.com/v1/places:searchNearby"
