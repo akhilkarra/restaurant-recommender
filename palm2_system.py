@@ -74,16 +74,7 @@ STEP 4.
 Stay in character for every RESPONSE you give me. Keep your RESPONSES short.
 Ask one and only one question per RESPONSE. Feel free to ask me questions, too.
 """
-EXAMPLES = [
-  [
-    "Hi",
-    "Hello! How can I help you today?"
-  ],
-  [
-    "I would like something to order in.",
-    "Sure! I can help you with that. What kind of food would you like?"
-  ]
-]
+EXAMPLES = []
 
 
 # Get current location of the user
