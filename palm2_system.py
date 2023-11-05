@@ -47,9 +47,9 @@ __status__ = "Prototype"
 # PaLM 2 Hyperparameters
 DEFAULTS = {
   'model': 'models/chat-bison-001',
-  'temperature': 0.15,
-  'top_k': 10,
-  'top_p': 1,
+  'temperature': 0.25,
+  'top_k': 5,
+  'top_p': 0.95,
 }
 MESSAGES = []
 CONTEXT = """I want to order some food for delivery or pickup but I don't know
