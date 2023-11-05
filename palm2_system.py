@@ -86,7 +86,6 @@ def current_location() -> tuple[float, float]:
     :returns: A (latitude, longitude) tuple with the user's current location
     """
     geoloc = geocoder.ip("me")
-    print(f"Geocoder returned location {geoloc.latlng}")
     return geoloc.latlng
 
 
@@ -97,8 +96,6 @@ def nearby_restaurants(loc: list[float, float]) -> str:
     """
     # Get current locaiton from user
     lat, long = loc
-    print(f"Location latitude = {lat}")
-    print(f"Location longitude = {long}")
 
     # Send a POST Request to the Google Maps Places API
     headers = {
@@ -112,9 +109,6 @@ def nearby_restaurants(loc: list[float, float]) -> str:
     maps_places_request = requests.post(
         url, headers=headers, data=data, timeout=50
     )
-
-    print(f"Google maps returned the following JSON\n {maps_places_request.text}")
-
     return maps_places_request.text
 
 
