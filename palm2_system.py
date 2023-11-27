@@ -8,7 +8,7 @@ to create the backend for the restaurant recommender system.
 As soon as the user logs into the app, the Google Maps API extracts all nearby
 restaurants and loads it into the context of the PaLM 2 LLM. The user then
 provides prompts which are fed into the PaLM 2 LLM, and then this library
-extracts the resopnse from the model to give back to the front end and then the
+extracts the response from the model to give back to the front end and then the
 user.
 
 The way to use this API is to do the following:
